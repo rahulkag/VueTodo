@@ -4,7 +4,7 @@
             <v-toolbar-title>Todo List</v-toolbar-title>
             <v-spacer></v-spacer>
             <template v-slot:extension>
-                <v-tabs v-model="model" centered>
+                <v-tabs v-model="model" centered slider-color="teal-lighten-3">
                     <v-tab key="Add Todo">
                         Add todo
                     </v-tab>
@@ -38,6 +38,9 @@
                 </v-window-item>
             </v-window>
         </v-container>
+        <v-snackbar v-model="snackbarText" location="bottom right" timeout="2000">
+            <p>{{ snackbarText }}</p>
+        </v-snackbar>
     </v-card>
 </template>
   
@@ -57,41 +60,45 @@ export default {
     },
     data() {
         return {
+            snackbarText: false,
             listType: "readOnly",
             model: 'tab-2',
-            todos: [
-                { id: 1, text: "There are instances where a set of default properties are injected or custom styling is applied to the v-btn. This can be for a variety of reasons, but the most common are: There are instances where a set of default properties are injected or custom styling is applied to the v-btn. This can be for a variety of reasons, but the most common are:", completed: false, editing: false, createdDate: new Date() },
-                { id: 2, text: "Two", completed: false, editing: false, createdDate: new Date() },
-                { id: 3, text: "Three", completed: false, editing: false, createdDate: new Date() },
-                { id: 4, text: "Four", completed: false, editing: false, createdDate: new Date() },
-                { id: 5, text: "Five", completed: false, editing: false, createdDate: new Date() }
-            ],
-            completedList: [{ id: 6, text: "Six", completed: true }],
-            deletedList: [{ id: 7, text: "Seven", deleted: true }]
+            todos: localStorage.getObject('todos') || [],
+            completedList: localStorage.getObject('completedList') || [],
+            deletedList: localStorage.getObject('deletedList') || []
         }
     },
     methods: {
         add(itemText) {
+            const date = new Date();
+            const dateTime = date.toDateString() + " " + date.toLocaleTimeString();
             const item = {
                 id: Math.random(),
                 text: itemText,
-                createdDate: new Date()
+                createdDate: dateTime
             }
             this.todos.push(item);
+            // add to local storage
+            localStorage.setObject('todos', this.todos);
+            this.snackbarText = "Item Added";
         },
         deleteTodo(id) {
             const deletedItem = this.todos.find((item) => item.id === id);
             this.deletedList.push({ ...deletedItem, deleted: true });
             this.todos = this.todos.filter((item) => item.id !== id)
+            localStorage.setObject('todos', this.todos);
+            localStorage.setObject('deletedList', this.deletedList);
+            this.snackbarText = "Item Delete";
         },
         markCompleted(id) {
             const completedItem = this.todos.find((item) => item.id === id);
             this.completedList.push({ ...completedItem, completed: true });
             this.todos = this.todos.filter((item) => item.id !== id);
+            localStorage.setObject('todos', this.todos);
+            localStorage.setObject('completedList', this.completedList);
+            this.snackbarText = "Item marked as completed";
         },
         editItem(id) {
-
-            // const item = this.todos.find((item) => item.id === id);
             this.todos = this.todos.map((item) => {
                 if (item.id === id) {
                     return {
@@ -124,8 +131,9 @@ export default {
                 }
                 return item;
             });
+            localStorage.setObject('todos', this.todos);
+            this.snackbarText = "Item updated";
         }
     }
-
 }
 </script>

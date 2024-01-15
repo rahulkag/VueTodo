@@ -1,5 +1,5 @@
 <template>
-    <form class="stack-small" @submit.prevent="saveEdit">
+    <form class="" @submit.prevent="saveEdit">
         <v-row>
             <v-col cols="12">
                 <v-textarea v-model.lazy.trim="newText" name="newText" variant="filled" label="Edit Item"

@@ -15,31 +15,8 @@ import * as directives from 'vuetify/directives'
 const vuetify = createVuetify({
     components,
     directives,
-    // theme: {
-    //     // defaultTheme: "light",
-    //     light: {
-    //         dark: false,
-    //         colors: {
-    //             primary: colors.red.darken1, // #E53935
-    //             secondary: colors.red.lighten4, // #FFCDD2
-    //         }
-    //     },
-    // },
     theme: {
-        themes: {
-            light: {
-                dark: false,
-                colors: {
-                    primary: colors.teal.darken3,
-                    secondary: colors.teal.lighten5,
-
-                    error: '#B00020',
-                    info: '#2196F3',
-                    success: '#4CAF50',
-                    warning: '#FB8C00',
-                }
-            },
-        },
+        defaultTheme: "light",
     },
     icons: {
         defaultSet: "mdi",
@@ -51,18 +28,3 @@ const vuetify = createVuetify({
     },
 });
 export default vuetify;
-/*
-export default createVuetify({
-    theme: {
-        themes: {
-            light: {
-                dark: false,
-                colors: {
-                    primary: colors.red.darken1, // #E53935
-                    secondary: colors.red.lighten4, // #FFCDD2
-                }
-            },
-        },
-    },
-})
-*/

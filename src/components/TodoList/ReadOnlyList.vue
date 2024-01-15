@@ -1,6 +1,7 @@
 <template>
     <v-card class="mx-auto">
         <v-list>
+            <v-alert v-if="todos.length === 0" type="info" text="No active item in list" />
             <v-list-item v-for="(todo, i) in todos" :key="i" :value="item" color="primary" class=" pa-2">
                 <v-row>
                     <v-col cols="12">
