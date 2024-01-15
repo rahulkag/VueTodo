@@ -1,9 +1,9 @@
-declare global {
-    interface Storage {
-        setObject: (key: string, value: unknown) => void;
-        getObject: (key: string) => unknown;
-    }
+
+interface Storage {
+    setObject: (key: string, value: unknown) => void;
+    getObject: (key: string) => unknown;
 }
+
 
 Storage.prototype.setObject = function (key: string, value: unknown) {
     this.setItem(key, JSON.stringify(value));
